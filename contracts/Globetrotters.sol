@@ -28,7 +28,7 @@ contract Globetrotters is ERC721, VRFConsumerBase {
     mapping(bytes32 => uint256) requestToTokenId;
     mapping(uint256 => string) trotterCityIdToCity;
     mapping(uint256 => string) trotterColorIdToColor;
-
+    
     constructor(address _openWeatherIconAddress, address _openWeatherTempAddress, address _VRFCoordinator, address _LinkToken, bytes32 _keyHash) public
     VRFConsumerBase(_VRFCoordinator, _LinkToken)
     ERC721("Globetrotters", "GLOB") {
@@ -46,12 +46,11 @@ contract Globetrotters is ERC721, VRFConsumerBase {
         trotterCityIdToCity[3] = "San Francisco";
         trotterCityIdToCity[4] = "Chicago";
 
-        trotterColorIdToColor[0] = "3F8A8C";
-        trotterColorIdToColor[1] = "0C5679";
-        trotterColorIdToColor[2] = "0B0835";
-        trotterColorIdToColor[3] = "E5340B";
-        trotterColorIdToColor[4] = "F28A0F";
-        trotterColorIdToColor[5] = "FFE7BD";
+        trotterColorIdToColor[0] = "blue";
+        trotterColorIdToColor[1] = "red";
+        trotterColorIdToColor[2] = "teal";
+        trotterColorIdToColor[3] = "purple";
+        trotterColorIdToColor[4] = "orange";
     }
 
     function requestNewRandomTrotter () public returns (bytes32) {

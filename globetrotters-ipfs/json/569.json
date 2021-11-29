@@ -1,0 +1,23 @@
+{
+  "name": "GlobetrottersNFT #569",
+  "description": "This is a collection of dynamic NFTS created for Chainlink's 2021 Fall Hackathon",
+  "image": "ipfs://NewUriToReplace/569.png",
+  "dna": "33bbfe03aad630878187e571a456c7bf08206d57",
+  "edition": 569,
+  "date": 1638155437149,
+  "attributes": [
+    {
+      "trait_type": "backgrounds",
+      "value": "red"
+    },
+    {
+      "trait_type": "weather",
+      "value": "sunny"
+    },
+    {
+      "trait_type": "city",
+      "value": "blue_sf"
+    }
+  ],
+  "compiler": "HashLips Art Engine"
+}

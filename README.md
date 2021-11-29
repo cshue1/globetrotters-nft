@@ -33,7 +33,7 @@ yarn global add truffle
 2. Setup repo
 
 ```bash
-git clone https://github.com/kwsantiago/weather-nft
+git clone https://github.com/cshue1/globetrotters-nft.git
 cd weather-nft 
 yarn
 truffle migrate --network  mumbai
@@ -50,8 +50,8 @@ truffle migrate --network XXXX
 
 ```
 yarn add truffle-plugin-verify
-truffle run verify WeatherNFT --network mumbai --license MIT
-truffle run verify WeatherFeed --network mumbai --license MIT
+truffle run verify WeatherNFT --network XXXX --license MIT
+truffle run verify WeatherFeed --network XXXX --license MIT
 ```
 
 ### Filecoin examples:

@@ -17,3 +17,45 @@ Globetrotters NFT is a randomly generated dynamic NFT project. The NFT will use 
 - Chainlink VRF
 - Chainlink Decentralized Oracle Network
 - Filecoin (IPFS)
+
+##Requirements
+- NPM
+
+
+## Installation
+
+1. Install truffle
+
+```bash
+yarn global add truffle
+```
+
+2. Setup repo
+
+```bash
+git clone https://github.com/kwsantiago/weather-nft
+cd weather-nft 
+yarn
+truffle migrate --network  mumbai
+```
+
+3. Deploy
+
+```
+truffle migrate --network XXXX
+```
+
+### Verify
+
+
+```
+yarn add truffle-plugin-verify
+truffle run verify WeatherNFT --network mumbai --license MIT
+truffle run verify WeatherFeed --network mumbai --license MIT
+```
+
+### Filecoin examples:
+```
+ipfs cat /ipfs/Qma6xchqf66CQF5oHf3QLnoB7R1RYcLUny6FScNHtX3cdt > test.png
+ipfs cat /ipfs/QmdHkSD571zSpypmb6a3aV26YWMSTrHuk6dAL2Rdqid74U > test2.png
+```

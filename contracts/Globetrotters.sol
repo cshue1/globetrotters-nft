@@ -4,39 +4,58 @@ pragma solidity ^0.6.6;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
-
+import "./interfaces/IOpenWeatherIcon.sol";
+import "./interfaces/IOpenWeatherTemp.sol";
 contract Globetrotters is ERC721, VRFConsumerBase {
 
     bytes32 internal keyHash;
     address internal vrfCoordinator;
     uint256 internal fee;
+    address internal openWeatherIconAddress;
+    address internal openWeatherTempAddress;
 
     struct Trotter {
-        uint256 city;
-        uint256 weather;
-        uint256 background;
-        uint256 color;
-        string name;
+        string city;
+        string weather;
+        string background;
+        string color;
+        string temperature;
     }
 
     Trotter[] public trotters;
 
-    //mappings will go here !!
-    mapping(bytes32 => string) requestToTrotterName;
     mapping(bytes32 => address) requestToSender;
     mapping(bytes32 => uint256) requestToTokenId;
+    mapping(uint256 => string) trotterCityIdToCity;
+    mapping(uint256 => string) trotterColorIdToColor;
 
-    constructor(address _VRFCoordinator, address _LinkToken, bytes32 _keyHash) public
+    constructor(address _openWeatherIconAddress, address _openWeatherTempAddress, address _VRFCoordinator, address _LinkToken, bytes32 _keyHash) public
     VRFConsumerBase(_VRFCoordinator, _LinkToken)
     ERC721("Globetrotters", "GLOB") {
+
+        openWeatherIconAddress = _openWeatherIconAddress;
+        openWeatherTempAddress = _openWeatherTempAddress;
+
         vrfCoordinator = _VRFCoordinator;
         keyHash = _keyHash;
         fee = 0.1 * 10**18; // 0.1 LINK
+
+        trotterCityIdToCity[0] = "New York City";
+        trotterCityIdToCity[1] = "London";
+        trotterCityIdToCity[2] = "Paris";
+        trotterCityIdToCity[3] = "San Francisco";
+        trotterCityIdToCity[4] = "Chicago";
+
+        trotterColorIdToColor[0] = "3F8A8C";
+        trotterColorIdToColor[1] = "0C5679";
+        trotterColorIdToColor[2] = "0B0835";
+        trotterColorIdToColor[3] = "E5340B";
+        trotterColorIdToColor[4] = "F28A0F";
+        trotterColorIdToColor[5] = "FFE7BD";
     }
 
-    function requestNewRandomTrotter (string memory name) public returns (bytes32) {
+    function requestNewRandomTrotter () public returns (bytes32) {
         bytes32 requestId = requestRandomness(keyHash, fee);
-        requestToTrotterName[requestId] = name;
         requestToSender[requestId] = msg.sender;
         return requestId;
     }
@@ -45,18 +64,17 @@ contract Globetrotters is ERC721, VRFConsumerBase {
     internal override {
         //define the creation of the NFT
         uint256 newId = trotters.length;
-        uint256 city = (randomNumber % 5) + 1; //1 + random number between 0 and 4 
-        uint256 weather = ((randomNumber % 50) / 10) + 1;
-        uint256 background = ((randomNumber % 500) / 100) + 1;
-        uint256 color = ((randomNumber % 5000) / 1000) + 1;
+        uint256 cityId = (randomNumber % 5); // random number between 0 and 4 
+        uint256 backgroundId = ((randomNumber % 500) / 100);
+        uint256 colorId = ((randomNumber % 5000) / 1000);
 
         trotters.push(
             Trotter(
-                city,
-                weather,
-                background,
-                color,
-                requestToTrotterName[requestId]
+                trotterCityIdToCity[cityId],
+                IOpenWeatherIcon(openWeatherIconAddress).weather(),
+                trotterColorIdToColor[backgroundId],
+                trotterColorIdToColor[colorId],
+                IOpenWeatherTemp(openWeatherTempAddress).temperature()
             )
         );
         _safeMint(requestToSender[requestId], newId);
